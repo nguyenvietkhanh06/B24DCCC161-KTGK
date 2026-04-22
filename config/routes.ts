@@ -36,23 +36,15 @@
 		component: './RandomUser',
 		icon: 'ArrowsAltOutlined',
 	},
+	
 	{
-    name: 'Bài tập thực hành 1',
-    icon: 'code',
-    path: '/bai-tap',
-    routes: [
-      {
-        name: 'Bài 1: Game Đoán Số',
-        path: '/bai-tap/bai-1',
-        component: './BaiTap/Bai1',
-      },
-      {
-        name: 'Bài 2: TodoList',
-        path: '/bai-tap/bai-2',
-        component: './BaiTap/Bai2',
-      },
-    ],
-  },
+        path: '/order-manager',
+        name: 'Quản lý đơn hàng',
+        icon: 'shopping-cart', 
+        component: './OrderManager', 
+    },
+      
+  
 	// DANH MUC HE THONG
 	// {
 	// 	name: 'DanhMuc',

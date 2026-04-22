@@ -15,6 +15,21 @@ const OrderTable: React.FC<Props> = ({ onEdit }) => {
   const [searchText, setSearchText] = useState('');
   const [filterStatus, setFilterStatus] = useState<string | null>(null);
 
+  const [sortConfig, setSortConfig] = useState<{ key: string; order: 'descend' | 'ascend' | null }>({
+    key: '',
+    order: null,
+  });
+
+  const handleSortChange = (value: string) => {
+    if (value === 'date') {
+      setSortConfig({ key: 'orderDate', order: 'descend' });
+    } else if (value === 'amount') {
+      setSortConfig({ key: 'totalAmount', order: 'descend' });
+    } else {
+      setSortConfig({ key: '', order: null });
+    }
+  };
+
   
   const handleCancel = async (id: string) => {
     try {
@@ -41,6 +56,7 @@ const OrderTable: React.FC<Props> = ({ onEdit }) => {
       title: 'Ngày đặt', 
       dataIndex: 'orderDate', 
       key: 'orderDate',
+      sortOrder: sortConfig.key === 'orderDate' ? sortConfig.order : null,
       sorter: (a: any, b: any) => new Date(a.orderDate).getTime() - new Date(b.orderDate).getTime(),
     },
     { 
@@ -48,6 +64,7 @@ const OrderTable: React.FC<Props> = ({ onEdit }) => {
       dataIndex: 'totalAmount', 
       key: 'totalAmount',
       render: (val: number) => `${val.toLocaleString()} đ`,
+      sortOrder: sortConfig.key === 'totalAmount' ? sortConfig.order : null,
       sorter: (a: any, b: any) => a.totalAmount - b.totalAmount,
     },
     {
@@ -105,10 +122,20 @@ const OrderTable: React.FC<Props> = ({ onEdit }) => {
             allowClear 
             onChange={setFilterStatus}
           >
+
             <Select.Option value="pending">Chờ xác nhận</Select.Option>
             <Select.Option value="shipping">Đang giao</Select.Option>
             <Select.Option value="completed">Hoàn thành</Select.Option>
             <Select.Option value="canceled">Đã hủy</Select.Option>
+          </Select>
+          <Select 
+            placeholder="Sắp xếp theo..." 
+            style={{ width: 180 }} 
+            allowClear 
+            onChange={handleSortChange}
+          >
+            <Select.Option value="date">Ngày đặt hàng</Select.Option>
+            <Select.Option value="amount">Tổng tiền</Select.Option>
           </Select>
         </Space>
       </Space>
